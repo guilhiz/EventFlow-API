@@ -13,8 +13,8 @@ async function getAddressFromCEP(cep: string) {
     throw invalidFormatError();
   }
 
-  if (!!result.data.erro) {
-    throw missingDataError();
+  if (result.data.erro) {
+    throw invalidFormatError();
   }
 
   const address = await stripAddressObject(result.data);
