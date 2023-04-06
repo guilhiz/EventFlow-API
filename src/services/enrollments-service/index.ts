@@ -13,7 +13,7 @@ async function getAddressFromCEP(cep: string) {
     throw invalidFormatError();
   }
 
-  if (result.data.erro) {
+  if (!!result.data.erro) {
     throw missingDataError();
   }
 
