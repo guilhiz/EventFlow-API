@@ -26,8 +26,14 @@ export function handleApplicationErrors(
     });
   }
 
-  if (err.name === 'NotFoundError') {
+  if (err.name === 'NotFoundError' || err.name === 'MissingDataError') {
     return res.status(httpStatus.NOT_FOUND).send({
+      message: err.message,
+    });
+  }
+
+  if (err.name == 'InvalidFormatError') {
+    return res.status(httpStatus.NO_CONTENT).send({
       message: err.message,
     });
   }
