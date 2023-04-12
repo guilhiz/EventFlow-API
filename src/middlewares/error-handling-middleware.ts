@@ -27,14 +27,8 @@ export function handleApplicationErrors(err: ApplicationError | Error, _req: Req
     });
   }
 
-  if (err.name === 'NotFoundError' || err.name === 'MissingDataError') {
+  if (err.name === 'NotFoundError') {
     return res.status(httpStatus.NOT_FOUND).send({
-      message: err.message,
-    });
-  }
-
-  if (err.name == 'InvalidFormatError') {
-    return res.status(httpStatus.NO_CONTENT).send({
       message: err.message,
     });
   }
