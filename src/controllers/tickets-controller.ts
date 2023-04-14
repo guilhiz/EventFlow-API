@@ -1,27 +1,42 @@
 import { Response, NextFunction } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
+import ticketsService from '@/services/tickets-service';
 
 export async function getTicketsType(req: AuthenticatedRequest, res: Response) {
   try {
-    return res.status(httpStatus.OK).send();
+    const { types } = await ticketsService.getTicketsType();
+
+    return res.status(httpStatus.OK).send(types);
   } catch (error) {
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }
 
-export async function getTickets(req: AuthenticatedRequest, res: Response) {
+export async function getTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req as { userId: number };
+
   try {
-    return res.status(httpStatus.OK).send();
+    const { ticket } = await ticketsService.getTicket(userId);
+
+    return res.status(httpStatus.OK).send(ticket);
   } catch (error) {
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    console.log(error);
+    if (error.name === 'NotFoundError') return res.status(httpStatus.NOT_FOUND).send(error.message);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }
 
-export async function postTickets(req: AuthenticatedRequest, res: Response) {
+export async function postTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { ticketTypeId } = req.body as { ticketTypeId: number };
+  const { userId } = req as { userId: number };
+
   try {
-    return res.status(httpStatus.OK).send();
+    const { newTicket } = await ticketsService.postTickets(ticketTypeId, userId);
+
+    return res.status(httpStatus.CREATED).send(newTicket);
   } catch (error) {
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    if (error.name === 'NotFoundError') return res.status(httpStatus.NOT_FOUND).send(error.message);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }

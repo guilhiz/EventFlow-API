@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Payment } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findPaymentByTicketId(ticketId: number) {
@@ -9,7 +9,7 @@ async function findPaymentByTicketId(ticketId: number) {
   });
 }
 
-async function createPayment(payment: Prisma.PaymentCreateInput) {
+async function createPayment(payment: Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>) {
   return prisma.payment.create({
     data: payment,
   });
