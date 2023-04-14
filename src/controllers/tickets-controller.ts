@@ -1,4 +1,4 @@
-import { Response, NextFunction } from 'express';
+import { Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import ticketsService from '@/services/tickets-service';
@@ -13,7 +13,7 @@ export async function getTicketsType(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function getTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function getTickets(req: AuthenticatedRequest, res: Response) {
   const { userId } = req as { userId: number };
 
   try {
@@ -27,7 +27,7 @@ export async function getTickets(req: AuthenticatedRequest, res: Response, next:
   }
 }
 
-export async function postTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function postTickets(req: AuthenticatedRequest, res: Response) {
   const { ticketTypeId } = req.body as { ticketTypeId: number };
   const { userId } = req as { userId: number };
 

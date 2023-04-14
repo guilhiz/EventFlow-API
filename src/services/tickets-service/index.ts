@@ -21,7 +21,7 @@ async function getTicket(userId: number) {
 }
 
 async function postTickets(ticketTypeId: number, userId: number) {
-  if (!ticketTypeId) throw invalidDataError(['ticketTypeId is required']);
+  if (!ticketTypeId) throw invalidDataError(['ticket Type ID must be provided']);
 
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
 

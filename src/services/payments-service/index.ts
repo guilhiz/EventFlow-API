@@ -1,8 +1,10 @@
 import paymentsRepository from '@/repositories/payments-repository';
-import { invalidDataError, notFoundError } from '@/errors';
+import enrollmentRepository from '@/repositories/enrollment-repository';
+import { invalidDataError, notFoundError, unauthorizedError } from '@/errors';
 
-async function getPayment(ticketId: number) {
-  if (!ticketId) throw invalidDataError(['ticketId is required']);
+async function getPayment(ticketId: number, userId: number) {
+  if (!ticketId) throw invalidDataError(['Ticket ID must be provided']);
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
 
   const payment = await paymentsRepository.findPaymentByTicketId(ticketId);
 
