@@ -1,4 +1,4 @@
-import { Payment } from '@prisma/client';
+import { Payment, TicketStatus } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findPaymentByTicketId(ticketId: number) {
@@ -10,8 +10,18 @@ async function findPaymentByTicketId(ticketId: number) {
 }
 
 async function createPayment(payment: Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>) {
+  await prisma.ticket.update({
+    where: { id: payment.ticketId },
+    data: { status: TicketStatus.PAID },
+  });
+
   return prisma.payment.create({
-    data: payment,
+    data: {
+      ticketId: payment.ticketId,
+      value: payment.value,
+      cardIssuer: payment.cardIssuer,
+      cardLastDigits: payment.cardLastDigits,
+    },
   });
 }
 

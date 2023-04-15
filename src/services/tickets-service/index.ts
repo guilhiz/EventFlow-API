@@ -29,7 +29,6 @@ async function postTickets(ticketTypeId: number, userId: number) {
 
   const newTicket = await ticketsRepository.createTicket(ticketTypeId, enrollment.id);
 
-  console.log({ newTicket });
   return { newTicket };
 }
 

@@ -21,7 +21,6 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.OK).send(ticket);
   } catch (error) {
-    console.log(error);
     if (error.name === 'NotFoundError') return res.status(httpStatus.NOT_FOUND).send(error.message);
     return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
