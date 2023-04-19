@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken, validateBody } from '@/middlewares';
+import { authenticateToken } from '@/middlewares';
 import { getTickets, getTicketsType, postTickets } from '@/controllers';
 
 const ticketsRouter = Router();
