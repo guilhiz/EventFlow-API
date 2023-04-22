@@ -22,8 +22,6 @@ async function getHotels(userId: number) {
 }
 
 async function getRoomsByHotelId(hotelId: number, userId: number) {
-  if (!hotelId) throw invalidDataError(['hotel ID must be provided']);
-
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) throw notFoundError();
 
