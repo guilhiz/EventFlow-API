@@ -5,18 +5,18 @@ import { invalidDataError, notFoundError, paymentRequiredError } from '@/errors'
 
 async function getHotels(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-
   if (!enrollment) throw notFoundError();
 
   const ticket = await ticketsRepository.findTicketByUserId(userId);
-
   if (!ticket) throw notFoundError();
 
-  if (ticket.status === 'RESERVED') throw paymentRequiredError();
+  const isPaymentRequired =
+    ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel;
+
+  if (isPaymentRequired) throw paymentRequiredError();
 
   const hotels = await hotelRepository.findAllHotels();
-
-  if (!hotels) throw notFoundError();
+  if (hotels.length === 0) throw notFoundError();
 
   return { hotels };
 }
@@ -25,18 +25,20 @@ async function getRoomsByHotelId(hotelId: number, userId: number) {
   if (!hotelId) throw invalidDataError(['hotel ID must be provided']);
 
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-
   if (!enrollment) throw notFoundError();
 
   const ticket = await ticketsRepository.findTicketByUserId(userId);
-
   if (!ticket) throw notFoundError();
 
-  if (ticket.status === 'RESERVED') throw paymentRequiredError();
+  const isPaymentRequired =
+    ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel;
 
-  const rooms = await hotelRepository.findRoomsByHotelId(hotelId);
+  if (isPaymentRequired) throw paymentRequiredError();
 
-  return { rooms };
+  const hotelRooms = await hotelRepository.findRoomsByHotelId(hotelId);
+  if (!hotelRooms) throw notFoundError();
+
+  return { hotelRooms };
 }
 
 const hotelsService = {
