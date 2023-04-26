@@ -1,51 +1,51 @@
 
 <h1 align="center"> EventFlow-API</h1>
 
-## About
+## Descrição
 
-EventFlow is a web application for event management. This repository contains the back-end code for the application.
+EventFlow é uma aplicação de gerenciamento de eventos White Label que permite a gestão de um único evento. A aplicação possui um cronômetro que libera o sistema na data de início do cadastro do evento. Os usuários podem se inscrever para o evento (online ou presencial), escolher as atividades disponíveis e emitir um certificado de participação após o evento.
 
-## How to run for development
+## Como executar o projeto em modo de desenvolvimento
 
-1. Clone this repository
-2. Install all dependencies
+1. Clone este repositório
+2. Instale todas as dependências
 
 ```bash
 npm i
 ```
 
-3. Create a PostgreSQL database with whatever name you want
-4. Configure the `.env.development` file using the `.env.example` file (see "Running application locally or inside docker section" for details)
-5. Run all migrations
+3. Crie um banco de dados PostgreSQL com o nome que desejar
+4. Configure o arquivo .env.development usando o arquivo .env.example (veja a seção "Executando o aplicativo localmente ou dentro do Docker" para mais detalhes)
+5. Execute todas as migrações
 
 ```bash
 npm run dev:migration:run
 ```
 
-6. Seed db
+6. Popule o banco de dados com informações iniciais
 
 ```bash
 npm run dev:seed
 ```
 
-6. Run the back-end in a development environment:
+7. Execute o back-end em modo de desenvolvimento:
 
 ```bash
 npm run dev
 ```
 
-## How to run tests
+## Como executar os testes
 
-1. Follow the steps in the last section
-1. Configure the `.env.test` file using the `.env.example` file (see "Running application locally or inside docker" section for details)
-1. Run all migrations
+1. Siga os passos da seção anterior
+1. Configure o arquivo .env.test usando o arquivo .env.example (veja a seção "Executando o aplicativo localmente ou dentro do Docker" para mais detalhes)
+1. Execute todas as migrações
 
 ```bash
 npm run migration:run
 ```
 
-3. Run test:
-   (locally)
+4. Run test:
+   (localmente)
 
 ```bash
 npm run test
