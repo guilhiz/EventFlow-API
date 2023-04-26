@@ -3,7 +3,7 @@
 
 ## About
 
-EventFlow is a web browser application with which you can manage every single aspect of your event.
+EventFlow is a web application for event management. This repository contains the back-end code for the application.
 
 ## How to run for development
 
@@ -51,9 +51,4 @@ npm run migration:run
 npm run test
 ```
 
-(docker)
-
-```bash
-npm run test:docker
-```
 
