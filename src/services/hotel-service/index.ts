@@ -1,19 +1,24 @@
 import hotelRepository from '@/repositories/hotel-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketsRepository from '@/repositories/tickets-repository';
-import { invalidDataError, notFoundError, paymentRequiredError } from '@/errors';
+import { notFoundError, paymentRequiredError } from '@/errors';
 
-async function getHotels(userId: number) {
+async function validateEnrollmentAndTicket(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) throw notFoundError();
 
   const ticket = await ticketsRepository.findTicketByUserId(userId);
   if (!ticket) throw notFoundError();
 
-  const isPaymentRequired =
-    ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel;
+  const isValidTicket = ticket.status === 'PAID' && !ticket.TicketType.isRemote && ticket.TicketType.includesHotel;
 
-  if (isPaymentRequired) throw paymentRequiredError();
+  if (!isValidTicket) throw paymentRequiredError();
+
+  return;
+}
+
+async function getHotels(userId: number) {
+  await validateEnrollmentAndTicket(userId);
 
   const hotels = await hotelRepository.findAllHotels();
   if (hotels.length === 0) throw notFoundError();
@@ -22,16 +27,7 @@ async function getHotels(userId: number) {
 }
 
 async function getRoomsByHotelId(hotelId: number, userId: number) {
-  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-  if (!enrollment) throw notFoundError();
-
-  const ticket = await ticketsRepository.findTicketByUserId(userId);
-  if (!ticket) throw notFoundError();
-
-  const isPaymentRequired =
-    ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel;
-
-  if (isPaymentRequired) throw paymentRequiredError();
+  await validateEnrollmentAndTicket(userId);
 
   const hotelRooms = await hotelRepository.findRoomsByHotelId(hotelId);
   if (!hotelRooms) throw notFoundError();
