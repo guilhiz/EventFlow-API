@@ -11,8 +11,6 @@ export async function getHotels(req: AuthenticatedRequest, res: Response, next: 
 
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
-    if (error.name === 'InvalidDataError') return res.status(httpStatus.BAD_REQUEST).send(error.message);
-
     next(error);
   }
 }
@@ -26,8 +24,6 @@ export async function getRoomsByHotelId(req: AuthenticatedRequest, res: Response
 
     return res.status(httpStatus.OK).send(hotelRooms);
   } catch (error) {
-    if (error.name === 'InvalidDataError') return res.status(httpStatus.BAD_REQUEST).send(error.message);
-
     next(error);
   }
 }
