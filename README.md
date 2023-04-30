@@ -8,14 +8,9 @@ EventFlow é uma aplicação de gerenciamento de eventos White Label que permite
 ## Como executar o projeto em modo de desenvolvimento
 
 1. Clone este repositório
-2. Instale todas as dependências
-
-```bash
-npm i
-```
-
+2. Instale as dependências com `npm install`
 3. Crie um banco de dados PostgreSQL com o nome que desejar
-4. Configure o arquivo .env.development usando o arquivo .env.example (veja a seção "Executando o aplicativo localmente ou dentro do Docker" para mais detalhes)
+4. Configure o arquivo `.env.development` usando o arquivo .env.example 
 5. Execute todas as migrações
 
 ```bash
@@ -37,7 +32,7 @@ npm run dev
 ## Como executar os testes
 
 1. Siga os passos da seção anterior
-1. Configure o arquivo .env.test usando o arquivo .env.example (veja a seção "Executando o aplicativo localmente ou dentro do Docker" para mais detalhes)
+1. Configure o arquivo `.env.test` usando o arquivo .env.example 
 1. Execute todas as migrações
 
 ```bash
@@ -45,7 +40,6 @@ npm run migration:run
 ```
 
 4. Run test:
-   (localmente)
 
 ```bash
 npm run test
